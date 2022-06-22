@@ -34,8 +34,8 @@ router.delete("/deleteinterview", userController.verifyToken, interviewControlle
   return res.status(200).json(res.locals.getAlgoList);
 });
 
-// delete algo
-router.post("/editinterview", userController.verifyToken, algoController.getAlgoList, (req, res) => {
+// update algo
+router.post("/editinterview", userController.verifyToken, interviewController.editInterviewList, (req, res) => {
   console.log("end of editInterview router");
   console.log(res.locals.getAlgoList);
   return res.status(200).json(res.locals.getAlgoList);
