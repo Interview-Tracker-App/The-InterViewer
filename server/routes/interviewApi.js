@@ -20,7 +20,6 @@ router.get("/interviewlist", userController.verifyToken, interviewController.get
 
 // get a specific algo
 // req.body.token
-// req.body.algoid
 router.post("/createinterview", userController.verifyToken, interviewController.createInterviewList, (req, res) => {
   console.log("end of createInterview router");
   console.log(res.locals.getAlgoList);

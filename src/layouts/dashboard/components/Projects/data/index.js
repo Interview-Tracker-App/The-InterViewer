@@ -30,35 +30,51 @@ import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+
 export default function data() {
-  const avatars = (members) =>
-    members.map(([image, name]) => (
-      <Tooltip key={name} title={name} placeholder="bottom">
-        <MDAvatar
-          src={image}
-          alt="name"
-          size="xs"
-          sx={{
-            border: ({ borders: { borderWidth }, palette: { white } }) =>
-              `${borderWidth[2]} solid ${white.main}`,
-            cursor: "pointer",
-            position: "relative",
+  const saveAsNewInterview = () => {
+    const bodyArr = [
+      "company",
+      "date",
+      "source",
+      "contact name",
+      "contact info",
+      "",
+    ]; //change this later
+    const bodyObj = Object.fromEntries(
+      bodyArr.map((key) => [key, document.getElementsByName(key)[0].value])
+    );
+    bodyObj.token = cookies.get("token");
 
-            "&:not(:first-of-type)": {
-              ml: -1.25,
-            },
+    fetch("/api/interview/interviewlist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bodyObj),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
 
-            "&:hover, &:focus": {
-              zIndex: "10",
-            },
-          }}
-        />
-      </Tooltip>
-    ));
-  const options = [
-    { label: "Complete", id: 1 },
-    { label: "Incomplete", id: 2 },
-  ];
+  const getInterviews = () => {
+    bodyObj.token = cookies.get("token");
+    fetch("/api/interview/interviewlist", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bodyObj),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
 
   // or
 
@@ -73,67 +89,54 @@ export default function data() {
 
   return {
     columns: [
-      { Header: "company", accessor: "companies", width: "45%", align: "left" },
-      { Header: "date", accessor: "members", width: "10%", align: "left" },
+      { Header: "company", accessor: "companies", align: "left" },
+      { Header: "date", accessor: "date", align: "left" },
       { Header: "source", accessor: "source", align: "center" },
-      { Header: "contact name", accessor: "contactName", width: "45%", align: "left" },
-      { Header: "contact info", accessor: "contactInfo", width: "45%", align: "left" },
-      { Header: "URL", accessor: "url", width: "45%", align: "left" },
-      { Header: "job role", accessor: "jobRole", width: "45%", align: "center" },
+      { Header: "contact name", accessor: "contactName", align: "left" },
+      { Header: "contact info", accessor: "contactInfo", align: "left" },
+      { Header: "URL", accessor: "url", align: "left" },
+      { Header: "position", accessor: "position", align: "center" },
       // { Header: "contactName", accessor: "contactName", align: "center" },
     ],
 
     rows: [
       {
-        companies: <Company image={logoXD} name="Material UI XD Version" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {/* {avatars([
-              [team1, "Ryan Tompson"],
-              [team2, "Romina Hadid"],
-              [team3, "Alexander Smith"],
-              [team4, "Jessica Doe"],
-            ])} */}
-          </MDBox>
+        companies: (
+          <TextField id="outlined-basic" variant="outlined" label="Company" />
         ),
-        URL: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            www.url.com
-          </MDTypography>
+        date: (
+          <TextField
+            id="outlined-basic"
+            variant="outlined"
+            label="MM/DD/YYYY"
+          />
         ),
         source: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $14,000
-          </MDTypography>
+          <TextField id="outlined-basic" variant="outlined" label="Soure" />
         ),
         contactName: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={60} color="info" variant="gradient" label={false} />
-          </MDBox>
-          // <Autocomplete
-          //   disablePortal
-          //   id="combo-box-demo"
-          //   options={options}
-          //   sx={{ width: 300 }}
-          //   renderInput={(params) => <TextField {...params} label="options" />}
-          // />
+          <TextField
+            id="outlined-basic"
+            variant="outlined"
+            label="Contact Name"
+          />
         ),
         contactInfo: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $14,000
-          </MDTypography>
+          <TextField
+            id="outlined-basic"
+            variant="outlined"
+            label="Contact Info"
+          />
+        ),
+        url: <TextField id="outlined-basic" variant="outlined" label="URL" />,
+        position: (
+          <TextField id="outlined-basic" variant="outlined" label="position" />
         ),
       },
+
       {
         companies: <Company image={logoAtlassian} name="Add Progress Track" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {/* {avatars([
-              [team2, "Romina Hadid"],
-              [team4, "Jessica Doe"],
-            ])} */}
-          </MDBox>
-        ),
+        date: <MDBox display="flex" py={1}></MDBox>,
 
         source: (
           <MDTypography variant="caption" color="text" fontWeight="medium">
@@ -142,102 +145,22 @@ export default function data() {
         ),
         contactName: (
           <MDBox width="8rem" textAlign="left">
-            <MDProgress value={10} color="info" variant="gradient" label={false} />
+            <MDProgress
+              value={10}
+              color="info"
+              variant="gradient"
+              label={false}
+            />
           </MDBox>
         ),
-        jobRole: (
+        position: (
           <MDBox width="8rem" textAlign="left">
-            <MDProgress value={10} color="info" variant="gradient" label={false} />
-          </MDBox>
-        ),
-      },
-      {
-        contactInfo: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={10} color="info" variant="gradient" label={false} />
-          </MDBox>
-        ),
-      },
-      {
-        companies: <Company image={logoSlack} name="Fix Platform Errors" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {avatars([
-              [team1, "Ryan Tompson"],
-              [team3, "Alexander Smith"],
-            ])}
-          </MDBox>
-        ),
-        source: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            Not set
-          </MDTypography>
-        ),
-        contactName: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={100} color="success" variant="gradient" label={false} />
-          </MDBox>
-        ),
-      },
-      {
-        companies: <Company image={logoSpotify} name="Launch our Mobile App" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {/* {avatars([
-              [team4, "Jessica Doe"],
-              [team3, "Alexander Smith"],
-              [team2, "Romina Hadid"],
-              [team1, "Ryan Tompson"],
-            ])} */}
-          </MDBox>
-        ),
-        source: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $20,500
-          </MDTypography>
-        ),
-        contactName: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={100} color="success" variant="gradient" label={false} />
-          </MDBox>
-        ),
-      },
-      {
-        companies: <Company image={logoJira} name="Add the New Pricing Page" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {avatars([[team4, "Jessica Doe"]])}
-          </MDBox>
-        ),
-        source: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $500
-          </MDTypography>
-        ),
-        contactName: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={25} color="info" variant="gradient" label={false} />
-          </MDBox>
-        ),
-      },
-      {
-        companies: <Company image={logoInvesion} name="Redesign New Online Shop" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {avatars([
-              [team1, "Ryan Tompson"],
-              [team4, "Jessica Doe"],
-            ])}
-          </MDBox>
-        ),
-        source: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $2,000
-          </MDTypography>
-        ),
-        contactName: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={40} color="info" variant="gradient" label={false} />
+            <MDProgress
+              value={10}
+              color="info"
+              variant="gradient"
+              label={false}
+            />
           </MDBox>
         ),
       },

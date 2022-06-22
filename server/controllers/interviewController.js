@@ -4,7 +4,7 @@ const interviewController = {};
 
 interviewController.getInterviewList = (req, res, next) => {
   //res.locals.userid will hold the id of the user
-  const { userid } = req.body;
+  const { userid } = res.locals;
   const query = "SELECT * FROM interview WHERE userid = $1";
   db.query(query, [userid])
     .then((data) => {
