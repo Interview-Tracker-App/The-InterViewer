@@ -42,6 +42,8 @@ import MDInput from "components/MDInput";
 <MDInput type="week" label="Week" value="2018-W23" />
 <MDInput type="time" label="Time" value="10:30:00" />
 <MDInput type="color" label="Color" value="#17c1e8" /> */}
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 function algorithm(props) {
   const temp = [
@@ -87,21 +89,11 @@ function algorithm(props) {
   ];
 
   const saveAsNewProblem = () => {
-    const bodyArr = ['algotitle', 'problem', 'notes', 'code', 'codetitle'];   
-    
-    // const bodyObj2 = {
-    //   token: "$2b$04$y3HzatMEPrKAR7rQSS6k6.qr3fQM2RXr1Zgo8SDQhDPJzsZB5vVGC",
-    //   algotitle: "reverseLL", 
-    //   problem: "reverse the linked list",
-    //   notes: "easier with doubly ll", 
-    //   code: "console.log('ll rocks')", 
-    //   codetitle: "iterative"
-    // };
-    
+    const bodyArr = ['algotitle', 'problem', 'notes', 'code', 'codetitle'];  
     const bodyObj = Object.fromEntries(
       bodyArr.map(key => [key, document.getElementsByName(key)[0].value])
     )
-    bodyObj.token = props.token;
+    bodyObj.token = cookies.get('token');
 
     fetch("/api/algo/createalgo", {
       method: "POST",

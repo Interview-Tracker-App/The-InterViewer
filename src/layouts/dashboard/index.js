@@ -2,6 +2,15 @@
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
+// function handleInput() {
+  const [source, setSource] = useState(source)
+  const [position, setPosition] = useState(position)
+  
+}
+
+
+
+
 
 * Product Page: https://www.creative-tim.com/product/material-dashboard-react
 * Copyright 2022 Creative Tim (https://www.creative-tim.com)
@@ -44,11 +53,8 @@ function Dashboard() {
       <MDBox py={3}>
         <MDBox>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={8}>
+            <Grid item xs={12}>
               <Projects />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <OrdersOverview />
             </Grid>
           </Grid>
         </MDBox>
