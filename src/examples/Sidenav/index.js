@@ -47,6 +47,11 @@ import {
   setWhiteSidenav,
 } from "context";
 
+
+
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
@@ -82,6 +87,26 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleMiniSidenav);
   }, [dispatch, location]);
+
+
+  const signoutUser = () => {
+    const bodyObj = {
+      token: cookies.get('token')
+    }
+    console.log(bodyObj);
+    fetch("/api/user/logoutUser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bodyObj),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        cookies.remove('token');
+        window.location.href = '/';
+      });
+    }
 
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
   const renderRoutes = routes.map(({ type, name, icon, title, noCollapse, key, href, route }) => {
@@ -179,17 +204,14 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         }
       />
       <List>{renderRoutes}</List>
-      <MDBox p={2} mt="auto">
+      <MDBox p={2} mt="auto" onClick={signoutUser}>
         <MDButton
-          component="a"
-          href="https://www.creative-tim.com/product/material-dashboard-pro-react"
-          target="_blank"
           rel="noreferrer"
           variant="gradient"
           color={sidenavColor}
           fullWidth
         >
-          upgrade to pro
+          log out
         </MDButton>
       </MDBox>
     </SidenavRoot>

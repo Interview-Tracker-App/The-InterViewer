@@ -1,21 +1,17 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/function-component-definition */
 /**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
-
 * Product Page: https://www.creative-tim.com/product/material-dashboard-react
 * Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
 Coded by www.creative-tim.com
-
  =========================================================
-
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-
+import { useRef } from "react";
 // @mui material components
+import { Autocomplete } from "@mui/material";
+import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
@@ -59,6 +55,12 @@ export default function data() {
         />
       </Tooltip>
     ));
+  const options = [
+    { label: "Complete", id: 1 },
+    { label: "Incomplete", id: 2 },
+  ];
+
+  // or
 
   const Company = ({ image, name }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
@@ -71,10 +73,14 @@ export default function data() {
 
   return {
     columns: [
-      { Header: "companies", accessor: "companies", width: "45%", align: "left" },
-      { Header: "members", accessor: "members", width: "10%", align: "left" },
-      { Header: "budget", accessor: "budget", align: "center" },
-      { Header: "completion", accessor: "completion", align: "center" },
+      { Header: "company", accessor: "companies", width: "45%", align: "left" },
+      { Header: "date", accessor: "members", width: "10%", align: "left" },
+      { Header: "source", accessor: "source", align: "center" },
+      { Header: "contact name", accessor: "contactName", width: "45%", align: "left" },
+      { Header: "contact info", accessor: "contactInfo", width: "45%", align: "left" },
+      { Header: "URL", accessor: "url", width: "45%", align: "left" },
+      { Header: "job role", accessor: "jobRole", width: "45%", align: "center" },
+      // { Header: "contactName", accessor: "contactName", align: "center" },
     ],
 
     rows: [
@@ -82,41 +88,71 @@ export default function data() {
         companies: <Company image={logoXD} name="Material UI XD Version" />,
         members: (
           <MDBox display="flex" py={1}>
-            {avatars([
+            {/* {avatars([
               [team1, "Ryan Tompson"],
               [team2, "Romina Hadid"],
               [team3, "Alexander Smith"],
               [team4, "Jessica Doe"],
-            ])}
+            ])} */}
           </MDBox>
         ),
-        budget: (
+        URL: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            www.url.com
+          </MDTypography>
+        ),
+        source: (
           <MDTypography variant="caption" color="text" fontWeight="medium">
             $14,000
           </MDTypography>
         ),
-        completion: (
+        contactName: (
           <MDBox width="8rem" textAlign="left">
             <MDProgress value={60} color="info" variant="gradient" label={false} />
           </MDBox>
+          // <Autocomplete
+          //   disablePortal
+          //   id="combo-box-demo"
+          //   options={options}
+          //   sx={{ width: 300 }}
+          //   renderInput={(params) => <TextField {...params} label="options" />}
+          // />
+        ),
+        contactInfo: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            $14,000
+          </MDTypography>
         ),
       },
       {
         companies: <Company image={logoAtlassian} name="Add Progress Track" />,
         members: (
           <MDBox display="flex" py={1}>
-            {avatars([
+            {/* {avatars([
               [team2, "Romina Hadid"],
               [team4, "Jessica Doe"],
-            ])}
+            ])} */}
           </MDBox>
         ),
-        budget: (
+
+        source: (
           <MDTypography variant="caption" color="text" fontWeight="medium">
             $3,000
           </MDTypography>
         ),
-        completion: (
+        contactName: (
+          <MDBox width="8rem" textAlign="left">
+            <MDProgress value={10} color="info" variant="gradient" label={false} />
+          </MDBox>
+        ),
+        jobRole: (
+          <MDBox width="8rem" textAlign="left">
+            <MDProgress value={10} color="info" variant="gradient" label={false} />
+          </MDBox>
+        ),
+      },
+      {
+        contactInfo: (
           <MDBox width="8rem" textAlign="left">
             <MDProgress value={10} color="info" variant="gradient" label={false} />
           </MDBox>
@@ -132,12 +168,12 @@ export default function data() {
             ])}
           </MDBox>
         ),
-        budget: (
+        source: (
           <MDTypography variant="caption" color="text" fontWeight="medium">
             Not set
           </MDTypography>
         ),
-        completion: (
+        contactName: (
           <MDBox width="8rem" textAlign="left">
             <MDProgress value={100} color="success" variant="gradient" label={false} />
           </MDBox>
@@ -147,20 +183,20 @@ export default function data() {
         companies: <Company image={logoSpotify} name="Launch our Mobile App" />,
         members: (
           <MDBox display="flex" py={1}>
-            {avatars([
+            {/* {avatars([
               [team4, "Jessica Doe"],
               [team3, "Alexander Smith"],
               [team2, "Romina Hadid"],
               [team1, "Ryan Tompson"],
-            ])}
+            ])} */}
           </MDBox>
         ),
-        budget: (
+        source: (
           <MDTypography variant="caption" color="text" fontWeight="medium">
             $20,500
           </MDTypography>
         ),
-        completion: (
+        contactName: (
           <MDBox width="8rem" textAlign="left">
             <MDProgress value={100} color="success" variant="gradient" label={false} />
           </MDBox>
@@ -173,12 +209,12 @@ export default function data() {
             {avatars([[team4, "Jessica Doe"]])}
           </MDBox>
         ),
-        budget: (
+        source: (
           <MDTypography variant="caption" color="text" fontWeight="medium">
             $500
           </MDTypography>
         ),
-        completion: (
+        contactName: (
           <MDBox width="8rem" textAlign="left">
             <MDProgress value={25} color="info" variant="gradient" label={false} />
           </MDBox>
@@ -194,12 +230,12 @@ export default function data() {
             ])}
           </MDBox>
         ),
-        budget: (
+        source: (
           <MDTypography variant="caption" color="text" fontWeight="medium">
             $2,000
           </MDTypography>
         ),
-        completion: (
+        contactName: (
           <MDBox width="8rem" textAlign="left">
             <MDProgress value={40} color="info" variant="gradient" label={false} />
           </MDBox>

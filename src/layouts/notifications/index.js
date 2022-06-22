@@ -36,6 +36,7 @@ function Notifications() {
   const [infoSB, setInfoSB] = useState(false);
   const [warningSB, setWarningSB] = useState(false);
   const [errorSB, setErrorSB] = useState(false);
+  const [text, setText] = useState("hihi");
 
   const openSuccessSB = () => setSuccessSB(true);
   const closeSuccessSB = () => setSuccessSB(false);
@@ -45,6 +46,25 @@ function Notifications() {
   const closeWarningSB = () => setWarningSB(false);
   const openErrorSB = () => setErrorSB(true);
   const closeErrorSB = () => setErrorSB(false);
+  const funcSetText = () => {
+    const bodyObj = {
+      username: "KenTheBoss",
+      greeting: "hi???",
+    };
+
+    fetch("/api", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bodyObj),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setText(data.greeting);
+      });
+  };
 
   const alertContent = (name) => (
     <MDTypography variant="body2" color="white">
@@ -160,8 +180,8 @@ function Notifications() {
               <MDBox p={2}>
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={6} lg={3}>
-                    <MDButton variant="gradient" color="success" onClick={openSuccessSB} fullWidth>
-                      success notification
+                    <MDButton variant="gradient" color="success" onClick={funcSetText} fullWidth>
+                      Will this work {text}
                     </MDButton>
                     {renderSuccessSB}
                   </Grid>
