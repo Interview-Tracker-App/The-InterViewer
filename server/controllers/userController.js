@@ -11,6 +11,7 @@ userController.createUser = (req, res, next) => {
     const query = "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *";  
     db.query(query, [username, hashedPassword])
       .then(data => {
+        console.log("creating user");
         return next();
       })
       .catch(err => {

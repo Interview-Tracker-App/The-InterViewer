@@ -65,6 +65,23 @@ algoController.createAlgo = (req, res, next) => {
     });
 };
 
+algoController.updateAlgo = (req, res, next) => {
+  //res.locals.userid will hold the id of the user
+  const { title, problem, notes, createdat, timescompleted, userid } = req.body;
+  const query = "UPDATE algos SET title = $1, problem = $2, notes = $3, createdat = $4, timescompleted = $5 WHERE userid = $6 RETURNING *"
+  db.query(query, [title, problem, notes, createdat, timescompleted, userid])
+    .then((data) => {
+      console.log("updating interview")
+      return next();
+    })
+    .catch ((err) => {
+      const errorObj = {
+        log: 400,
+        message: `Error with interviewController.updateInterviewList ${err}`,
+      };
+    });
+};
+
 algoController.deleteAlgo = (req, res, next) => {
   // req.body.algoid
   db.query("DELETE FROM algos WHERE id = $1", [req.body.algoid])
@@ -78,6 +95,7 @@ algoController.deleteAlgo = (req, res, next) => {
     };
   });
 };
+
 
 algoController.getCode = (req, res, next) => {
   const { codeid } = req.body;
@@ -112,7 +130,6 @@ algoController.createCode = (req, res, next) => {
       };
     });
 };
-
 
 
 module.exports = algoController;
