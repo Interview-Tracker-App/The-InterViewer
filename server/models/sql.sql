@@ -35,11 +35,17 @@ CREATE TABLE Interview (
 
 CREATE TABLE Users (
 	id serial PRIMARY KEY,
-	email VARCHAR,
-	imgurl VARCHAR,
-	name VARCHAR,
+	username VARCHAR,
+	password VARCHAR,
 	token VARCHAR
 );
+-- CREATE TABLE Users (
+-- 	id serial PRIMARY KEY,
+-- 	email VARCHAR,
+-- 	imgurl VARCHAR,
+-- 	name VARCHAR,
+-- 	token VARCHAR
+-- );
 
 CREATE TABLE UserAlgos (
 	userid INT,

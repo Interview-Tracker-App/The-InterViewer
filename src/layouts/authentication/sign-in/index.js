@@ -41,10 +41,37 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 function Basic() {
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
+
+
+  const signinUser = () => {
+    const bodyArr = ['username', 'password'];
+    const bodyObj = Object.fromEntries(
+      bodyArr.map(key => [key, document.getElementsByName(key)[0].value])
+    )
+    console.log(bodyObj);
+    fetch("/api/user/loginUser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bodyObj),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        cookies.set('token', data, { path: '/' });
+        window.location.href = '/';
+      });
+  }; 
+
+
 
   return (
     <BasicLayout image={bgImage}>
@@ -64,11 +91,11 @@ function Basic() {
             Sign in
           </MDTypography>
           <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
-            <Grid item xs={2}>
+            {/* <Grid item xs={2}>
               <MDTypography component={MuiLink} href="#" variant="body1" color="white">
                 <FacebookIcon color="inherit" />
               </MDTypography>
-            </Grid>
+            </Grid> */}
             <Grid item xs={2}>
               <MDTypography component={MuiLink} href="#" variant="body1" color="white">
                 <GitHubIcon color="inherit" />
@@ -84,25 +111,13 @@ function Basic() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="email" label="Email" fullWidth />
+              <MDInput type="text" label="Username" name="username" fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" label="Password" fullWidth />
-            </MDBox>
-            <MDBox display="flex" alignItems="center" ml={-1}>
-              <Switch checked={rememberMe} onChange={handleSetRememberMe} />
-              <MDTypography
-                variant="button"
-                fontWeight="regular"
-                color="text"
-                onClick={handleSetRememberMe}
-                sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
-              >
-                &nbsp;&nbsp;Remember me
-              </MDTypography>
+              <MDInput type="password" label="Password" name="password" fullWidth />
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
+              <MDButton variant="gradient" color="info" fullWidth onClick={signinUser}>
                 sign in
               </MDButton>
             </MDBox>
@@ -111,7 +126,7 @@ function Basic() {
                 Don&apos;t have an account?{" "}
                 <MDTypography
                   component={Link}
-                  to="/authentication/sign-up"
+                  to="/signup"
                   variant="button"
                   color="info"
                   fontWeight="medium"

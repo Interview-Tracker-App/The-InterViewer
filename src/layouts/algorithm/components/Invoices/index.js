@@ -19,43 +19,33 @@ import Card from "@mui/material/Card";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import MDButton from "components/MDButton";
 
-// Billing page components
-import Bill from "layouts/billing/components/Bill";
+// Algorithm page components
+import Invoice from "layouts/algorithm/components/Invoice";
 
-function BillingInformation() {
+function Invoices() {
   return (
-    <Card id="delete-account">
-      <MDBox pt={3} px={2}>
+    <Card sx={{ height: "100%" }}>
+      <MDBox pt={2} px={2} display="flex" justifyContent="space-between" alignItems="center">
         <MDTypography variant="h6" fontWeight="medium">
-          Billing Information
+          Invoices
         </MDTypography>
+        <MDButton variant="outlined" color="info" size="small">
+          view all
+        </MDButton>
       </MDBox>
-      <MDBox pt={1} pb={2} px={2}>
+      <MDBox p={2}>
         <MDBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
-          <Bill
-            name="oliver liam"
-            company="viking burrito"
-            email="oliver@burrito.com"
-            vat="FRB1235476"
-          />
-          <Bill
-            name="lucas harper"
-            company="stone tech zone"
-            email="lucas@stone-tech.com"
-            vat="FRB1235476"
-          />
-          <Bill
-            name="ethan james"
-            company="fiber notion"
-            email="ethan@fiber.com"
-            vat="FRB1235476"
-            noGutter
-          />
+          <Invoice date="March, 01, 2020" id="#MS-415646" price="$180" />
+          <Invoice date="February, 10, 2021" id="#RV-126749" price="$250" />
+          <Invoice date="April, 05, 2020" id="#QW-103578" price="$120" />
+          <Invoice date="June, 25, 2019" id="#MS-415646" price="$180" />
+          <Invoice date="March, 01, 2019" id="#AR-803481" price="$300" noGutter />
         </MDBox>
       </MDBox>
     </Card>
   );
 }
 
-export default BillingInformation;
+export default Invoices;

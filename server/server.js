@@ -2,9 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
-const cookieParser = require("cookie-parser");
-const { createProxyMiddleware } = require('http-proxy-middleware');
-
+const algoApiRouter = require("./routes/algoApi");
+const interviewApiRouter = require("./routes/interviewApi");
+const userApiRouter = require("./routes/userApi");
 
 const PORT = 8000;
 const app = express();
@@ -13,33 +13,51 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 
-
-const db = require('./models/trackerModel');
-
-// app.get('/api/cookie', (req, res) =>{
-//   res.cookie.token = "123456";
-// })
-app.post("/api", (req, res) => {
-  console.log('hu')
-  console.log(req.cookies);
-  res.cookie('token', 'hellowww');
-  res.redirect('/');
+////temp
+const db = require('./models/trackerModel.js');
+app.use("/getusers", (req, res) => {
+  db.query('SELECT * FROM users')
+  .then((data) => {
+    res.locals.data = data.rows;
+    res.status(200).json(res.locals.data);
+  })
 });
+app.use("/getinterview", (req, res) => {
+  db.query('SELECT * FROM interview')
+  .then((data) => {
+    res.locals.data = data.rows;
+    res.status(200).json(res.locals.data);
+  })
+});
+app.use("/getalgos", (req, res) => {
+  db.query('SELECT * FROM algos')
+  .then((data) => {
+    res.locals.data = data.rows;
+    res.status(200).json(res.locals.data);
+  })
+});
+app.use("/getuseralgos", (req, res) => {
+  db.query('SELECT * FROM useralgos')
+  .then((data) => {
+    res.locals.data = data.rows;
+    res.status(200).json(res.locals.data);
+  })
+});
+app.use("/getcodes", (req, res) => {
+  db.query('SELECT * FROM codes')
+  .then((data) => {
+    res.locals.data = data.rows;
+    res.status(200).json(res.locals.data);
+  })
+});
+////temp
 
-// app.post("/api", (req, res) => {
-//   console.log(req.cookies);
-//   req.cookies.token = '123456';
-//   console.log(req.cookies);
-//   db.query("SELECT * from Users WHERE token=$1",[req.cookies.token])
-//   .then((data) => {
-//     const userObj = data.rows[0];
-//     console.log('userobj', userObj);
-//     res.locals.userid = userObj.id;
-//   });
-//   // db.query("INSERT INTO Users (email, imgurl, name, token) VALUES ('yh@gmail.com', 'awefae.jpg', 'sal', '123456')");  
-// });
+
+
+app.use("/api/algo", algoApiRouter);
+app.use("/api/interview", interviewApiRouter);
+app.use("/api/user", userApiRouter);
 
 app.get(express.static(path.resolve(__dirname, "../public")));
 

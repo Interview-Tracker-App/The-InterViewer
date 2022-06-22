@@ -139,16 +139,16 @@ material-dashboard-react
     │   │   ├── Lists
     │   │   ├── Navbars
     │   │   ├── Sidenav
-    │   │   ├── Tables
+    │   │   ├── Interview
     │   │   └── Timeline
     │   ├── layouts
     │   │   ├── authentication
-    │   │   ├── billing
+    │   │   ├── algorithm
     │   │   ├── dashboard
     │   │   ├── notifications
     │   │   ├── profile
     │   │   ├── rtl
-    │   │   └── tables
+    │   │   └── interview
     │   ├── App.js
     │   ├── index.js
     │   └── routes.js
