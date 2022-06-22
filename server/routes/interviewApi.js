@@ -12,7 +12,7 @@ const router = express.Router();
 // req.body.token
 // res.locals.userid
 // res.locals.getAlgoList
-router.get("/interviewlist", userController.verifyToken, interviewController.getInterviewList, (req, res) => {
+router.post("/interviewlist", userController.verifyToken, interviewController.getInterviewList, (req, res) => {
   console.log("end of interviewList router");
   console.log(res.locals.interviewList);
   return res.status(200).json(res.locals.interviewList);

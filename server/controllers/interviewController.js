@@ -5,11 +5,12 @@ const interviewController = {};
 interviewController.getInterviewList = (req, res, next) => {
   //res.locals.userid will hold the id of the user
   const { userid } = res.locals;
+  console.log(userid);
   const query = "SELECT * FROM interview WHERE userid = $1";
   db.query(query, [userid])
     .then((data) => {
       console.log('data', data.rows);
-      res.locals.interviewList = data;
+      res.locals.interviewList = data.rows;
       return next();
     })
     .catch ((err) => {

@@ -8,7 +8,7 @@ Coded by www.creative-tim.com
  =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 // @mui material components
 import { Autocomplete } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -34,7 +34,12 @@ import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 export default function data() {
+
+  const [interviews, setInterviews] = useState([]);
+  const [rendered, setRendered] = useState(false);
+
   const saveAsNewInterview = () => {
+    setRendered(false);
     const bodyArr = [
       "company",
       "date",
@@ -61,20 +66,54 @@ export default function data() {
       });
   };
 
-  const getInterviews = () => {
-    bodyObj.token = cookies.get("token");
-    fetch("/api/interview/interviewlist", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(bodyObj),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
-  };
+
+  
+
+  useEffect(()=>{
+    if (!rendered) {
+
+      const getInterviews = async () => {
+        setRendered(true);
+        const bodyObj = {};
+        bodyObj.token = cookies.get("token");
+        console.log(bodyObj);
+        const data = await fetch("/api/interview/interviewlist", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(bodyObj),
+        });
+        const returneddata = await data.json();
+        console.log('json here', returneddata);
+        const interviewRows = [];
+        returneddata.forEach(elem => {
+          console.log(elem);
+          interviewRows.push(
+            {
+              companies: <Company image={logoAtlassian} name={elem.company} />,
+              date: <MDBox display="flex" py={1}>{elem.interviewtime}</MDBox>,
+              edit: <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">Edit</MDTypography>,
+              position: <MDTypography  variant="caption" color="text" fontWeight="medium">{elem.jobrole}</MDTypography>,
+              source: <MDTypography variant="caption" color="text">{elem.source}r</MDTypography>,
+              contactName: <MDTypography variant="caption" color="text">{elem.contactname}</MDTypography>,
+              contactInfo: <MDTypography variant="caption" color="text">{elem.contactinfo}</MDTypography>,
+              url: <MDTypography variant="caption" color="text">{elem.joburl}</MDTypography>,
+
+              
+            }
+          );
+        });
+        console.log(interviewRows);
+        setInterviews(interviewRows);
+      };
+
+      getInterviews()
+        .catch(console.error);
+    }
+  })
+
+
 
   // or
 
@@ -87,16 +126,16 @@ export default function data() {
     </MDBox>
   );
 
-  return {
+  return ({
     columns: [
       { Header: "company", accessor: "companies", align: "left" },
+      { Header: "position", accessor: "position", align: "center" },
       { Header: "date", accessor: "date", align: "left" },
       { Header: "source", accessor: "source", align: "center" },
       { Header: "contact name", accessor: "contactName", align: "left" },
       { Header: "contact info", accessor: "contactInfo", align: "left" },
       { Header: "URL", accessor: "url", align: "left" },
-      { Header: "position", accessor: "position", align: "center" },
-      // { Header: "contactName", accessor: "contactName", align: "center" },
+      { Header: "", accessor: "edit", width:"10%", align: "center" },
     ],
 
     rows: [
@@ -132,38 +171,9 @@ export default function data() {
         position: (
           <TextField id="outlined-basic" variant="outlined" label="position" />
         ),
-      },
-
-      {
-        companies: <Company image={logoAtlassian} name="Add Progress Track" />,
-        date: <MDBox display="flex" py={1}></MDBox>,
-
-        source: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $3,000
-          </MDTypography>
-        ),
-        contactName: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress
-              value={10}
-              color="info"
-              variant="gradient"
-              label={false}
-            />
-          </MDBox>
-        ),
-        position: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress
-              value={10}
-              color="info"
-              variant="gradient"
-              label={false}
-            />
-          </MDBox>
-        ),
-      },
+      }, ...interviews
     ],
-  };
+  })
+
+  
 }
