@@ -29,6 +29,11 @@ import Footer from "examples/Footer";
 // Billing page components
 import MDInput from "components/MDInput";
 
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/theme-github";
+import "ace-builds/src-noconflict/ext-language_tools";
+
 {/* <MDInput type="text" label="Text" value="John Smith" />
 <MDInput type="search" label="Search" value="Creative Tim" />
 <MDInput type="email" label="Email" value="someone@example.com" />
@@ -116,6 +121,16 @@ function algorithm(props) {
       });
   };
 
+  //functionality to catch the editor console. 
+  //problem is it is printing everything in the editor into the console. It is not actuallly running the code from the editor.
+  // solution is you have to hijack the window.console and print them to the code box. 
+  //OR find a new editor with console built in. 
+
+
+  const onChange =(newValue) => {
+    console.log("change", newValue);
+  
+  }
 
   return (
     <DashboardLayout>
@@ -140,9 +155,18 @@ function algorithm(props) {
                 {/* <MDInput label="Notes" fullWidth={true} multiline rows={10} /> */}
               </Card>
             </Grid>
-            <Grid item xs={12} lg={7}>
+            <Grid item xs={12} lg={7} spacing={3} display="flex" justifyContent="no-space" gap="20px" flexDirection="column">
+              <Card style={{maxHeight: '50vh'}}>
+                <AceEditor
+                  mode="javascript"
+                  theme="github"
+                  onChange={onChange}
+                  name="UNIQUE_ID_OF_DIV"
+                  editorProps={{ $blockScrolling: true }}
+                />
+              </Card>
               <Card>
-                <MDInput label="code" name="code"  fullWidth={true} multiline rows={40}  defaultValue={temp[0].code}/>
+                <MDInput label="Console" name="code"  fullWidth={true} multiline rows={8}  defaultValue={temp[0].code}/>
               </Card>
             </Grid>
           </Grid>
