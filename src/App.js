@@ -145,7 +145,6 @@ export default function App() {
       </Icon>
     </MDBox>
   );
-
   return direction === "rtl" ? (
     <CacheProvider value={rtlCache}>
       <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
