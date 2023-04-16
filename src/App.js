@@ -37,7 +37,6 @@ import themeRTL from "assets/theme/theme-rtl";
 // Material Dashboard 2 React Dark Mode themes
 import themeDark from "assets/theme-dark";
 
-
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 import Interview from "layouts/interview";
@@ -46,12 +45,15 @@ import Profile from "layouts/profile";
 import SignUp from "layouts/authentication/sign-up";
 import SignIn from "layouts/authentication/sign-in";
 
-
 // Material Dashboard 2 React routes
 // import routes from "routes";
 
 // Material Dashboard 2 React contexts
-import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
+import {
+  useMaterialUIController,
+  setMiniSidenav,
+  setOpenConfigurator,
+} from "context";
 
 // Images
 import brandWhite from "assets/images/logo-ct.png";
@@ -114,7 +116,7 @@ export default function App(props) {
       icon: <Icon fontSize="small">person</Icon>,
       route: "/profile",
       component: <Profile />,
-    }
+    },
   ];
   // Open sidenav when mouse enter on mini sidenav
   const handleOnMouseEnter = () => {
@@ -133,7 +135,8 @@ export default function App(props) {
   };
 
   // Change the openConfigurator state
-  const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
+  const handleConfiguratorOpen = () =>
+    setOpenConfigurator(dispatch, !openConfigurator);
 
   // Setting the dir attribute for the body element
   useEffect(() => {
@@ -153,7 +156,14 @@ export default function App(props) {
       }
 
       if (route.route) {
-        return <Route exact path={route.route} element={route.component} key={route.key}/>;
+        return (
+          <Route
+            exact
+            path={route.route}
+            element={route.component}
+            key={route.key}
+          />
+        );
       }
 
       return null;
@@ -182,7 +192,7 @@ export default function App(props) {
       </Icon>
     </MDBox>
   );
-  
+
   return (
     <ThemeProvider theme={darkMode ? themeDark : theme}>
       <CssBaseline />
@@ -190,8 +200,12 @@ export default function App(props) {
         <>
           <Sidenav
             color={sidenavColor}
-            brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-            brandName="Interviewtrackekplaceholdername"
+            brand={
+              (transparentSidenav && !darkMode) || whiteSidenav
+                ? brandDark
+                : brandWhite
+            }
+            brandName="Interview & Algo Tracker"
             routes={routes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
@@ -203,7 +217,7 @@ export default function App(props) {
       {layout === "vr" && <Configurator />}
       <Routes>
         {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/profile"/>} />
+        <Route path="*" element={<Navigate to="/profile" />} />
       </Routes>
     </ThemeProvider>
   );

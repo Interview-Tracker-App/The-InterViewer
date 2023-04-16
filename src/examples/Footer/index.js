@@ -98,9 +98,15 @@ function Footer({ company, links }) {
 
 // Setting default values for the props of Footer
 Footer.defaultProps = {
-  company: { href: "https://github.com/Interview-Tracker-App/Interview-Tracker", name: "teamnameplaceholder" },
+  company: {
+    href: "https://github.com/Interview-Tracker-App/Interview-Tracker",
+    name: "Interview Tracker",
+  },
   links: [
-    { href: "https://github.com/Interview-Tracker-App/Interview-Tracker", name: "teamnameplaceholder" },
+    {
+      href: "https://github.com/Interview-Tracker-App/Interview-Tracker",
+      name: "Interview Tracker",
+    },
     // { href: "https://www.creative-tim.com/presentation", name: "About Us" },
     // { href: "https://www.creative-tim.com/blog", name: "Blog" },
     // { href: "https://www.creative-tim.com/license", name: "License" },

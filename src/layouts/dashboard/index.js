@@ -78,7 +78,7 @@ function Dashboard() {
                   title="Number of Applied Companies"
                   description={
                     <>
-                      (<strong>+15%</strong>) increase in today sales.
+                      (<strong>+15%</strong>) increase in applications.
                     </>
                   }
                   date="updated 4 min ago"

@@ -138,9 +138,9 @@ function Configurator() {
         px={3}
       >
         <MDBox>
-          <MDTypography variant="h5">Interviewtrackekplaceholdername</MDTypography>
+          <MDTypography variant="h5">Interview Tracker</MDTypography>
           <MDTypography variant="body2" color="text">
-            Brought to you by teamnameplaceholder
+            Brought to you by Interview Tracker
           </MDTypography>
         </MDBox>
 
