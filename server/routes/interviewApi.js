@@ -12,7 +12,7 @@ const router = express.Router();
 // req.body.token
 // res.locals.userid
 // res.locals.getAlgoList
-router.post("/interviewlist", userController.verifyToken, interviewController.getInterviewList, (req, res) => {
+router.get("/interviewlist", userController.verifyToken, interviewController.getInterviewList, (req, res) => {
   console.log("end of interviewList router");
   console.log(res.locals.interviewList);
   return res.status(200).json(res.locals.interviewList);
@@ -34,8 +34,8 @@ router.delete("/deleteinterview", userController.verifyToken, interviewControlle
   return res.status(200).json(res.locals.getAlgoList);
 });
 
-// update algo
-router.post("/editinterview", userController.verifyToken, interviewController.editInterviewList, (req, res) => {
+// delete algo
+router.post("/editinterview", userController.verifyToken, algoController.getAlgoList, (req, res) => {
   console.log("end of editInterview router");
   console.log(res.locals.getAlgoList);
   return res.status(200).json(res.locals.getAlgoList);

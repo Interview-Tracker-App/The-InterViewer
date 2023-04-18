@@ -29,6 +29,7 @@ import DataTable from "examples/Tables/DataTable";
 
 // Data
 import interviewTableData from "layouts/interview/data/interviewTableData";
+import projectsTableData from "layouts/interview/data/projectsTableData";
 
 function Interview() {
   const { columns, rows } = interviewTableData();

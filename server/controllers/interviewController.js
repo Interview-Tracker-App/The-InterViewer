@@ -5,12 +5,11 @@ const interviewController = {};
 interviewController.getInterviewList = (req, res, next) => {
   //res.locals.userid will hold the id of the user
   const { userid } = res.locals;
-  console.log(userid);
   const query = "SELECT * FROM interview WHERE userid = $1";
   db.query(query, [userid])
     .then((data) => {
       console.log('data', data.rows);
-      res.locals.interviewList = data.rows;
+      res.locals.interviewList = data;
       return next();
     })
     .catch ((err) => {
@@ -67,23 +66,5 @@ interviewController.deleteInterviewList = (req, res, next) => {
       };
     });
 };
-
-interviewController.editInterviewList = (req, res, next) => {
-  //res.locals.userid will hold the id of the user
-  const { company, interviewtime, source, contactname, contactinfo, jobrole, joburl, applicationtime, notes, status, userid } = req.body;
-  const query = "UPDATE interview SET company = $1, interviewtime = $2, source = $3, contactname = $4, contactinfo = $5, jobrole = $6, joburl = $7, applicationtime = $8, notes = $9, status = $10 WHERE userid = $11 RETURNING *"
-  db.query(query, [company, interviewtime, source, contactname, contactinfo, jobrole, joburl, applicationtime, notes, status, userid])
-    .then((data) => {
-      console.log("updating interview")
-      return next();
-    })
-    .catch ((err) => {
-      const errorObj = {
-        log: 400,
-        message: `Error with interviewController.updateInterviewList ${err}`,
-      };
-    });
-};
-
 
 module.exports = interviewController;

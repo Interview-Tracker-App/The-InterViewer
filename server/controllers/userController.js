@@ -11,7 +11,6 @@ userController.createUser = (req, res, next) => {
     const query = "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *";  
     db.query(query, [username, hashedPassword])
       .then(data => {
-        console.log("creating user");
         return next();
       })
       .catch(err => {
@@ -84,7 +83,6 @@ userController.setToken = (req, res, next) => {
 };
 
 userController.verifyToken = (req, res, next) => {
-  console.log('fired');
   const { token } = req.body;
   const query = 'SELECT * FROM users WHERE token = $1';
   db.query(query, [token])
